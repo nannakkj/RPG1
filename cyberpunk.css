@@ -1,0 +1,488 @@
+body::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  height: auto;
+  min-height: 100vh;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #0a0a0a, #1a1a1a);
+  position: relative;
+}
+
+.background {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 2; /* Garante que está atrás do conteúdo */
+}
+
+.rain {
+  position: fixed;
+  top: -100vh; /* Começa totalmente acima da tela */
+  left: 0;
+  width: 100%;
+  height: 100vh; /* Altura igual à viewport */
+  background: linear-gradient(transparent, rgba(0, 255, 255, 0.041));
+  animation: rainFall 3s linear infinite; /* Animação mais lenta */
+  z-index: 3;
+  user-select: none;
+  pointer-events: none;
+}
+
+.neon-lights {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(111, 255, 255, 0.199),
+    transparent 70%
+  );
+  animation: neonPulse 2s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glitch-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  animation: staticNoise 0.1s infinite;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.glitch-overlay::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: overlay;
+  animation: glitch 2s infinite;
+}
+
+.push-effect {
+  animation: pushScreen 0.1s ease-out;
+}
+
+.navbar {
+  height: 14vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 10px 20px;
+  color: white;
+  position: relative;
+  z-index: 10;
+}
+
+.navlinks {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0;
+  z-index: 1000;
+}
+
+.navlinks li {
+  margin: 0 10px;
+  position: relative;
+  z-index: 100000;
+}
+
+.navlinks .current {
+  color: rgb(22, 60, 185);
+  text-shadow: 0 0 4px rgba(22, 60, 185, 0.247), 0 0 10px rgba(22, 60, 185, 0.212);
+  cursor: default;
+}
+
+.navlinks a,
+.navlinks span {
+  font-size: 40px;
+  color: rgba(88, 247, 247, 0.8);
+  text-shadow: 0 0 4px rgba(88, 236, 247, 0.8), 0 0 10px rgba(88, 247, 247, 0.8);
+  text-decoration: none;
+  padding: 10px;
+  margin: 0;
+  vertical-align: middle;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.navlinks a:hover {
+  color: rgb(112, 138, 224);
+  text-shadow: 0 0 4px rgba(22, 60, 185, 0.247), 0 0 10px rgba(22, 60, 185, 0.212);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  padding: 10px 0;
+  border-radius: 4px;
+  list-style: none;
+  transition: display 0.3s ease;
+}
+
+.dropdown-content li {
+  margin: 0;
+  text-align: center;
+}
+
+.dropdown-content a,
+.dropdown-content span {
+  color: rgba(88, 247, 247, 0.8);
+  text-shadow: 0 0 4px rgba(88, 247, 247, 0.8), 0 0 10px rgba(88, 247, 247, 0.8);
+  padding: 12px 16px;
+  font-size: 20px;
+  white-space: nowrap;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+  background-color: #555;
+  color: rgb(112, 138, 224);
+  text-shadow: 0 0 4px rgba(22, 60, 185, 0.247), 0 0 10px rgba(22, 60, 185, 0.212);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.imagenscontainer {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.imagens {
+  max-height: 80vh;
+  margin: 50px 20px;
+  height: auto;
+}
+
+.logo,
+.logo2 {
+  position: fixed;
+  top: 1vh;
+  font-size: 2.4vh;
+  font-weight: bold;
+  z-index: 100000;
+}
+
+.logo2 {
+  right: 15px;
+}
+
+@keyframes rainFall {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(200vh); /* Desce 2x a altura da tela */
+  }
+}
+
+@keyframes neonPulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes staticNoise {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes glitch {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+.text {
+  position: relative;
+  left: 9%;
+  right: 12%;
+  margin-bottom: 0px;
+  user-select: text;
+  z-index: 9999;
+  margin-top: 20vh; /* Espaço para o cabeçalho */
+  padding-bottom: 50vh; /* Espaço para rolagem */
+}
+
+.text h1 {
+  color: rgb(79, 198, 228);
+  text-shadow: 0 0 10px #00ffffcc, 0 0 2px #0f83b9c7;
+  font-size: 60px;
+  margin-bottom: 0px;
+  user-select: text;
+}
+
+.text h2 {
+  position: relative;
+  left: 20px;
+  color: rgb(79, 198, 228);
+  text-shadow: 0 0 10px #00ffffcc, 0 0 2px #0f83b9c7;
+  font-size: 45px;
+  margin-bottom: 0px;
+  margin-top: 15px;
+  user-select: text;
+}
+
+.text h3 {
+  margin-top: 5px;
+  position: relative;
+  left: 30px;
+  color: rgb(79, 198, 228);
+  text-shadow: 0 0 10px #00ffffcc, 0 0 2px #0f83b9c7;
+  font-size: 30px;
+  margin-bottom: 0px;
+  user-select: text;
+}
+
+.text p {
+  position: relative;
+  color: rgb(223, 255, 244);
+  text-shadow: 0 0 10px #00ffffcc, 0 0 2px #00ffffcc;
+  font-size: 25px;
+  left: 40px;
+  margin-bottom: 0px;
+  margin-top: 5px;
+  user-select: text;
+}
+
+.text span {
+  margin-top: 5px;
+  position: relative;
+  color: rgb(223, 255, 244);
+  text-shadow: 0 0 10px #00ffffcc, 0 0 2px #00ffffcc;
+  font-size: 25px;
+  left: 40px;
+  margin-bottom: 0px;
+  user-select: text;
+}
+
+.text br {
+  user-select: none;
+}
+
+.body-parts {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.part {
+  flex: 1 1 200px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.part h2,
+.part h3 {
+  margin: 5px 0;
+}
+
+.difficulty-table {
+  margin-top: 40px;
+  z-index: 9999;
+}
+
+.difficulty-table {
+  margin-top: 40px;
+  z-index: 9999;
+}
+
+
+.difficulty-table table {
+  width: 60%;
+  margin: 0 auto;
+  margin-bottom: 4%;
+  border-collapse: collapse;
+  z-index: 9999;
+}
+
+.difficulty-table td {
+  padding: 12px;
+  border: 2px solid rgb(89, 207, 236);
+  text-shadow: 0 0 10px #00ffffcc, 0 0 2px #00ffffcc;
+  font-size: 20px;
+  color: rgb(223, 255, 244);
+  text-shadow: 0 0 10px #00ffffcc, 0 0 2px #00ffffcc;
+  text-align: center;
+  background-color: rgba(0, 0, 58, 0.671);
+  z-index: 99999;
+}
+
+.difficulty-table th {
+  padding: 12px;
+  border: 2px solid rgb(89, 207, 236);
+  font-size: 20px;
+  color: rgb(223, 255, 244);
+  text-shadow: 0 0 10px #00ffffcc, 0 0 2px #00ffffcc;
+  text-align: center;
+  background-color: rgba(0, 0, 58, 0.671);
+  z-index: 99999;
+}
+
+.color {
+  background-color: rgb(252, 208, 172);
+}
+
+
+
+
+@media (max-width: 1200px) {
+  .navlinks a, .navlinks span {
+    font-size: 1.8rem;
+  }
+  
+  .logo, .logo2 {
+    height: 80px;
+  }
+
+  /* Menu hambúrguer */
+  .navlinks {
+    position: fixed;
+    top: 12vh;
+    left: 0;
+    height: 0;
+    overflow: hidden;
+    flex-direction: column;
+    background-color: #333;
+    width: 100%;
+    padding: 0;
+    transition: all 0.3s ease;
+  }
+
+  .navlinks.active {
+    height: 88vh;
+    padding: 20px 0;
+    overflow-y: auto;
+  }
+
+  .navlinks li {
+    margin: 10px 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  /* Dropdowns em mobile */
+  .dropdown-content {
+    position: static;
+    display: none;
+    background-color: #444;
+    width: 80%;
+    margin: 0 auto;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .dropdown-content.show {
+    display: block;
+  }
+
+  .dropdown > span::after, 
+  .dropdown > a::after {
+    content: " ▼";
+    font-size: 0.8em;
+  }
+}
+
+/* Ajustes para telas menores */
+@media (max-width: 576px) {
+  .navbar {
+    padding: 10px 2%;
+  }
+
+  .text {
+    left: 5%;
+    right: 5%;
+    margin-top: 15px;
+  }
+
+  .text h1 {
+    font-size: 2.5rem;
+  }
+
+  .text h2 {
+    font-size: 2rem;
+    left: 10px;
+  }
+
+  .text p, .text li, .text td {
+    font-size: 1rem;
+    left: 10px;
+  }
+
+  .navlinks a, .navlinks span {
+    font-size: 1.5rem;
+  }
+
+  .logo, .logo2 {
+    height: 50px;
+  }
+}
